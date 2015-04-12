@@ -55,6 +55,6 @@
   },
   "scripts": {
     "build": "gulp",
-    "start": "node app"
+    "start": "gulp serve"
   }
 }
