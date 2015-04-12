@@ -37,15 +37,15 @@
     "require-dir": "~0.1.0",
     "browser-sync-spa": "~1.0.2",
     "http-proxy": "~1.8.0",
-    "chalk": "~0.5.1"
-  },
-  "devDependencies": {
+    "chalk": "~0.5.1",
     "karma": "~0.12.31",
     "karma-jasmine": "~0.3.1",
     "karma-phantomjs-launcher": "~0.1.4",
     "karma-ng-html2js-preprocessor": "~0.1.2",
     "protractor": "~1.7.0",
     "uglify-save-license": "~0.4.1"
+  },
+  "devDependencies": {
   },
   "engines": {
     "node": ">=0.10.0"
