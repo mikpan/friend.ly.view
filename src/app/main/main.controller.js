@@ -1,7 +1,61 @@
 'use strict';
 
 angular.module('friendlyView')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', function ($scope, Restangular) {
+    // First way of creating a Restangular object by saying the base URL
+    var baseEntries = Restangular.all('history');
+
+    // This will query all entries and return a promise.
+    baseEntries.getList().then(function(entries) {
+      var aggregates = _.reduce(entries, function (agg, value) {
+        var hourMoment = moment(new Date(value.stamp)).startOf('hour');
+        var hourDate = hourMoment.toDate();
+        if (!!agg[hourDate]) {
+          agg[hourDate].y++;
+        } else {
+          agg[hourDate] = {x: hourDate, y: 1};
+        }
+
+        return agg;
+      }, {});
+
+      $scope.data = [{
+        key: 'Visits/hour',
+        values: _.sortBy(_.toArray(aggregates), function (kv) { return kv.x })
+      }];
+    });
+
+    $scope.options = {
+      chart: {
+        type: 'multiBarChart',
+        height: 450,
+        margin: {
+          top: 20,
+          right: 20,
+          bottom: 20,
+          left: 45
+        },
+        clipEdge: false,
+        staggerLabels: true,
+        transitionDuration: 500,
+        stacked: true,
+        xAxis: {
+          axisLabel: 'Time (hour)',
+          showMaxMin: false,
+          tickFormat: function (d) {
+            return d3.time.format('%I%p %Y-%m-%d')(d);
+          }
+        },
+        yAxis: {
+          axisLabel: 'Visits',
+          axisLabelDistance: 100,
+          tickFormat: function (d) {
+            return d3.format(',.0f')(d);
+          }
+        }
+      }
+    };
+
     $scope.awesomeThings = [
       {
         'title': 'AngularJS',
@@ -58,7 +112,7 @@ angular.module('friendlyView')
         'logo': 'ruby-sass.png'
       }
     ];
-    angular.forEach($scope.awesomeThings, function(awesomeThing) {
+    angular.forEach($scope.awesomeThings, function (awesomeThing) {
       awesomeThing.rank = Math.random();
     });
   });
