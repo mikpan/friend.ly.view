@@ -31,7 +31,6 @@ module.exports = function(options) {
 
     var indexFilter = $.filter('index.scss');
     var vendorFilter = $.filter('vendor.scss');
-    var cssFilter = $.filter('**/*.css');
 
     return gulp.src([
       options.src + '/app/index.scss',
@@ -43,12 +42,10 @@ module.exports = function(options) {
       .pipe(vendorFilter)
       .pipe(wiredep(options.wiredep))
       .pipe(vendorFilter.restore())
-      .pipe($.rubySass(sassOptions)).on('error', options.errorHandler('RubySass'))
-      .pipe(cssFilter)
-      .pipe($.sourcemaps.init({ loadMaps: true }))
+      .pipe($.sourcemaps.init())
+      .pipe($.sass(sassOptions)).on('error', options.errorHandler('Sass'))
       .pipe($.autoprefixer()).on('error', options.errorHandler('Autoprefixer'))
       .pipe($.sourcemaps.write())
-      .pipe(cssFilter.restore())
       .pipe(gulp.dest(options.tmp + '/serve/app/'))
       .pipe(browserSync.reload({ stream: true }));
   });
