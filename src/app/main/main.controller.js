@@ -31,7 +31,7 @@ angular.module('friendlyView')
       $scope.hourData = aggregateEntries(entries, 'hour');
       $scope.dayData = aggregateEntries(entries, 'day');
       $scope.weekData = aggregateEntries(entries, 'week');
-      $scope.weekData = aggregateEntries(entries, 'month');
+      $scope.monthData = aggregateEntries(entries, 'month');
     });
 
     $scope.options = {
