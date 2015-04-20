@@ -2,10 +2,22 @@
 
   <div ng-include="'app/components/navbar/navbar.html'"></div>
 
-  <h1>Visits per hour statistics</h1>
 
   <div class="row">
-    <nvd3 options="options" data="data"></nvd3>
+    <h1>Hits per hour statistics</h1>
+    <nvd3 options="options" data="hourData"></nvd3>
+  </div>
+  <div class="row">
+    <h1>Hits per day statistics</h1>
+    <nvd3 options="options" data="dayData"></nvd3>
+  </div>
+  <div class="row">
+    <h1>Hits per week statistics</h1>
+    <nvd3 options="options" data="weekData"></nvd3>
+  </div>
+  <div class="row">
+    <h1>Hits per month statistics</h1>
+    <nvd3 options="options" data="monthData"></nvd3>
   </div>
 
   <div class="row">

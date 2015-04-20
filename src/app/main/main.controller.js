@@ -6,9 +6,9 @@ angular.module('friendlyView')
     var baseEntries = Restangular.all('history');
 
     // This will query all entries and return a promise.
-    baseEntries.getList().then(function(entries) {
+    function aggregateEntries(entries, unit) {
       var aggregates = _.reduce(entries, function (agg, value) {
-        var hourMoment = moment(new Date(value.stamp)).startOf('hour');
+        var hourMoment = moment(new Date(value.stamp)).startOf(unit);
         var hourDate = hourMoment.toDate();
         if (!!agg[hourDate]) {
           agg[hourDate].y++;
@@ -19,10 +19,19 @@ angular.module('friendlyView')
         return agg;
       }, {});
 
-      $scope.data = [{
-        key: 'Visits/hour',
-        values: _.sortBy(_.toArray(aggregates), function (kv) { return kv.x })
+      return [{
+        key: 'Hits/' + unit,
+        values: _.sortBy(_.toArray(aggregates), function (kv) {
+          return kv.x
+        })
       }];
+    }
+
+    baseEntries.getList().then(function (entries) {
+      $scope.hourData = aggregateEntries(entries, 'hour');
+      $scope.dayData = aggregateEntries(entries, 'day');
+      $scope.weekData = aggregateEntries(entries, 'week');
+      $scope.weekData = aggregateEntries(entries, 'month');
     });
 
     $scope.options = {
