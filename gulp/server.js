@@ -45,7 +45,7 @@ module.exports = function(options) {
     browserSyncInit([options.tmp + '/serve', options.src]);
   });
 
-  gulp.task('serve:dist', ['build'], function () {
+  gulp.task('serve:dist', function () {
     connect.server({
       root: 'dist',
       port: process.env.PORT || 5000,
